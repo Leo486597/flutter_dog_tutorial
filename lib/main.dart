@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dog_tutorial/model/dog.dart';
 // import 'package:dog_tutorial/widget/dog_card.dart';
-import 'package:dog_tutorial/widget/dog_list.dart';
+import 'package:dog_tutorial/pages/dog_list.dart';
 
 void main() => runApp(new MyApp());
 
@@ -46,10 +46,24 @@ class _MyHomePageState extends State<MyHomePage> {
       /// children. It doesn't take up any space itself, so it
       /// can be used as a placeholder in your code.
       body: new Container(
-        // Remove the DogCard Widget.
-        // Instead, use your new Dog List Class,
-        // Pass in the mock data from the list above
-        //
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            // Add one stop for each color.
+            // Stops should increase
+            // from 0 to 1
+            stops: [0.1, 0.5, 0.7, 0.9],
+            colors: [
+              // Colors are easy thanks to Flutter's
+              // Colors class.
+              Colors.indigo[800],
+              Colors.indigo[700],
+              Colors.indigo[600],
+              Colors.indigo[400],
+            ],
+          ),
+        ),
         child: new Center(
           child: new DogList(dogs),
         ),

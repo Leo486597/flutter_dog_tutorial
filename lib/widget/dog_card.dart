@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../model/dog.dart';
+import 'package:dog_tutorial/model/dog.dart';
+import 'package:dog_tutorial/pages/dog_detail.dart';
 
 class DogCard extends StatefulWidget {
   final Dog dog;
@@ -26,55 +27,69 @@ class _DogCardState extends State<DogCard> {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: new Container(
-        height: 115.0,
-        child: new Stack(
-          children: <Widget>[
-            new Positioned(right: 7.5, child: dogCard),
-            new Positioned(top: 7.5, child: dogImage),
-          ],
+    // InkWell is a special Material widget
+    // It makes it's children tappable,
+    // And adds Material Design ink response when tapped
+    return new InkWell(
+      onTap: showDogDetailPage,
+      child: new Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: new Container(
+          height: 115.0,
+          child: new Stack(
+            children: <Widget>[
+              new Positioned(right: 0.0, child: dogCard),
+              new Positioned(top: 7.5, child: dogImage),
+            ],
+          ),
         ),
       ),
     );
+  }
 
-    // return new Text(widget.dog.name);
-
-    // why there is new
-    // return Container(
-
-    // );
+  showDogDetailPage() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(builder: (context) {
+        return new DogDetailPage(dog);
+      }),
+    );
   }
 
   Widget get dogImage {
-    var dogAvatar = new Container(
-      // you can explicity set heights and widths on Containers.
-      // otherwise they take up as much space as their children.
-      width: 100.0,
-      height: 100.0,
-      // decoration is a property that lets you style the container.
-      // It expects a BoxDecoration
-      decoration: new BoxDecoration(
-        // BoxDecorations have many possible properties
-        // Using BoxShape with a background image
-        // is the easiest way to make a circle cropped avatar style
-        // image.
-        shape: BoxShape.circle,
-        image: new DecorationImage(
-          // Just like CSS's `imagesize` property
-          fit: BoxFit.cover,
-          // A NetworkImage widget is a widget that
-          // takes a URL to an image.
-          // ImageProviders (such as NetworkImage)
-          // are ideal when your image needs to be laoded or can
-          // change.
-          // Use the null check to avoid an error.
-          image: new NetworkImage(renderUrl ?? ''),
+    // Wrap the entire widget in a 'Hero' widget, as a child
+    var dogAvatar = new Hero(
+      // Give your hero a tag
+      // Basically, Flutter looks for two widgets on two
+      // different pages, and if they have the same tag
+      // It animates them between the two pages
+      tag: dog,
+      child: new Container(
+        // you can explicity set heights and widths on Containers.
+        // otherwise they take up as much space as their children.
+        width: 100.0,
+        height: 100.0,
+        // decoration is a property that lets you style the container.
+        // It expects a BoxDecoration
+        decoration: new BoxDecoration(
+          // BoxDecorations have many possible properties
+          // Using BoxShape with a background image
+          // is the easiest way to make a circle cropped avatar style
+          // image.
+          shape: BoxShape.circle,
+          image: new DecorationImage(
+            // Just like CSS's `imagesize` property
+            fit: BoxFit.cover,
+            // A NetworkImage widget is a widget that
+            // takes a URL to an image.
+            // ImageProviders (such as NetworkImage)
+            // are ideal when your image needs to be laoded or can
+            // change.
+            // Use the null check to avoid an error.
+            image: new NetworkImage(renderUrl ?? ''),
+          ),
         ),
       ),
     );
-
     return dogAvatar;
   }
 
